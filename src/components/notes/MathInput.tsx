@@ -13,10 +13,8 @@ const MQDir = {
 
 const mathquillConfigOptions: MathFieldConfig = {
     spaceBehavesLikeTab: true,
-    autoCommands:
-        'sqrt pi tau theta langle rangle union intersection and or infinity infty int sum prod to',
-    autoOperatorNames:
-        'log ln exp sin cos tan sec csc cot arcsin arccos arctan arcsec arccsc arccot sinh cosh tanh sech csch coth arcsinh arccosh arctanh arcsech arccsch arccoth lim',
+    autoCommands: 'sqrt nthroot pi tau theta langle rangle union intersection and or infinity infty int sum prod to implies iff equiv oplus',
+    autoOperatorNames: 'log ln exp sin cos tan sec csc cot arcsin arccos arctan arcsec arccsc arccot sinh cosh tanh sech csch coth arcsinh arccosh arctanh arcsech arccsch arccoth lim',
 };
 
 function MathInput({
