@@ -63,7 +63,8 @@ function latexFix(latex: string) {
     return latex
         .replace(/\\lim_/g, '\\lim\\limits_')
         .replace(/\\int_{ }\^{ }(?=[A-Za-z])/g, '\\int ')
-        .replace(/\\int_{ }\^{ }(?![A-Za-z])/g, '\\int');
+        .replace(/\\int_{ }\^{ }(?![A-Za-z])/g, '\\int')
+        .replace(/\\mid_/g, '\\bigg\\rvert_');
 }
 
 function documentToMarkdown(
