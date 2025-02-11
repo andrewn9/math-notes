@@ -64,7 +64,8 @@ function latexFix(latex: string) {
         .replace(/\\lim_/g, '\\lim\\limits_')
         .replace(/\\int_{ }\^{ }(?=[A-Za-z])/g, '\\int ')
         .replace(/\\int_{ }\^{ }(?![A-Za-z])/g, '\\int')
-        .replace(/\\mid_/g, '\\bigg\\rvert_');
+        .replace(/\\mid_/g, '\\bigg\\rvert_')
+        .replace(/(=|<|>|\\ne|\\ge|\\le)\^\?/g, '\\stackrel{?}{$1}');
 }
 
 function documentToMarkdown(
