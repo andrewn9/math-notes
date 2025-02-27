@@ -13,7 +13,7 @@ const MQDir = {
 
 const mathquillConfigOptions: MathFieldConfig = {
     spaceBehavesLikeTab: true,
-    autoCommands: 'sqrt nthroot pi tau theta langle rangle union intersection and or infinity infty int sum prod to implies iff equiv oplus neg not forall exists',
+    autoCommands: 'sqrt nthroot pi tau theta langle rangle union intersection and or infinity infty int sum prod to implies iff equiv oplus neg not forall exists bar hat',
     autoOperatorNames: 'log ln exp sin cos tan sec csc cot arcsin arccos arctan arcsec arccsc arccot sinh cosh tanh sech csch coth arcsinh arccosh arctanh arcsech arccsch arccoth lim',
 };
 
