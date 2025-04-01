@@ -26,12 +26,15 @@ import DialogButton from './components/DialogButton';
 import { useHistory } from './useHistory';
 import DropdownButton from './components/DropdownButton';
 import { useRecovery } from './useRecovery';
+import { useLocalStorage } from '@tater-archives/react-use-localstorage';
 
 function App() {
     const [title, setTitle] = useState('');
     const [blocks, setBlocks] = useState<KeyedArray<BlockData>>(() => [
         addKey(NoteBlockData('')),
     ]);
+
+    const [appendJson, setAppendJson] = useLocalStorage(false, 'appendJson')
 
     const [undo, redo, replaceHistory, setSaved, saved] = useHistory(
         blocks,
@@ -136,9 +139,11 @@ function App() {
                     title='Export as markdown'
                     dialogContent={
                         <ExportDialog
-                            content={documentToMarkdown(title, blocks)}
+                            provideContent={() => documentToMarkdown(title, blocks, appendJson)}
                             onDownload={setSaved}
                             filename={`${safeFileName(title) || 'Untitled'}.md`}
+                            appendJson={appendJson}
+                            onChangeAppendJson={setAppendJson}
                         />
                     }>
                     <MarkdownIcon className='icon' />

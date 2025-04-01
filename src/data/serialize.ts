@@ -72,7 +72,8 @@ function latexFix(latex: string) {
 
 function documentToMarkdown(
     title: string,
-    blocks: KeyedArray<BlockData>
+    blocks: KeyedArray<BlockData>,
+    appendJson: boolean = false,
 ): string {
     return (
         (title ? `# ${title}\n\n` : '') +
@@ -124,7 +125,8 @@ function documentToMarkdown(
                         )
                 }
             })
-            .join('\n')
+            .join('\n') +
+        (appendJson ? `\n- \`\`\`json\n    ${JSON.stringify(serializeDocument(title, blocks))}\n\`\`\`` : '')
     );
 }
 

@@ -3,13 +3,17 @@ import DownloadButton from './control/DownloadButton';
 import { CopyIcon, DownloadIcon } from '../icons';
 
 function ExportDialog({
-    content,
+    provideContent,
     filename,
     onDownload,
+    appendJson,
+    onChangeAppendJson,
 }: {
-    content: string;
+    provideContent: () => string;
     filename: string;
     onDownload?: () => void;
+    appendJson: boolean;
+    onChangeAppendJson: (appendJson: boolean) => void;
 }) {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -18,6 +22,8 @@ function ExportDialog({
         textareaRef.current?.setSelectionRange(0, 999999999);
         navigator.clipboard.writeText(textareaRef.current?.value ?? '');
     };
+
+    const content = provideContent();
 
     return (
         <>
@@ -42,6 +48,10 @@ function ExportDialog({
                     title='Copy text'>
                     <CopyIcon className='icon' />
                 </button>
+                <label className='flex flex-row gap-1 items-center'>
+                    <input type="checkbox" checked={appendJson} onChange={event => onChangeAppendJson(event.target.checked)} />
+                    Append JSON
+                </label>
             </div>
         </>
     );
