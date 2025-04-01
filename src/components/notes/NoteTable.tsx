@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { KeyboardEventHandler, useEffect, useState } from 'react';
 import { AbstractTableBlockData, Direction } from '../../data/notes';
 import { WithKey } from '../../data/keys';
 import { ControlledComponentProps, NavigationProps } from '../../data/props';
@@ -17,6 +17,7 @@ function NoteTable<T extends AbstractTableBlockData>({
     onDownOut,
     onUpOut,
     onDeleteOut,
+    onInsertAfter,
     headerButtons = false,
     border = false,
     spaced = false,
@@ -37,6 +38,13 @@ function NoteTable<T extends AbstractTableBlockData>({
         }
     }, [focusSide, focused, cells.length]);
 
+    const handleKeyDown: KeyboardEventHandler = event => {
+        if (onInsertAfter && event.key === 'Enter' && event.ctrlKey) {
+            onInsertAfter()
+            event.preventDefault()
+        }
+    }
+
     const addColumn = () => {
         setCells(cells.map(row => [...row, '']));
     };
@@ -46,7 +54,7 @@ function NoteTable<T extends AbstractTableBlockData>({
     };
 
     return (
-        <table className={spaced ? 'border-spacing-x-2 border-spacing-y-1 border-separate' : ''}>
+        <table className={spaced ? 'border-spacing-x-2 border-spacing-y-1 border-separate' : ''} onKeyDownCapture={handleKeyDown}>
             {headerButtons && <thead>
                 <tr>
                     {cells[0].slice(0, -1).map((_, i) => (

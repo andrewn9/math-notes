@@ -11,21 +11,37 @@ function Block({
     value,
     onChange,
     onReplace,
+    onDuplicate,
     onIndent,
+    onMoveUp,
+    onMoveDown,
     ...otherProps
 }: ControlledComponentProps<WithKey<BlockData>> &
     NavigationProps & {
         onReplace?: (...blocks: KeyedArray<BlockData>) => void;
+        onDuplicate?: () => void;
         onIndent?: (change: -1 | 1) => void;
+        onMoveUp?: () => void;
+        onMoveDown?: () => void;
     }) {
     const handleKeyDown: KeyboardEventHandler = event => {
-        if (event.key !== 'Tab') return;
-        event.preventDefault();
-        if (event.shiftKey) {
-            if (value.indent <= 0) return;
-            onIndent?.(-1);
-        } else {
-            onIndent?.(1);
+        if (event.key === 'Tab') {
+            event.preventDefault();
+            if (event.shiftKey) {
+                if (value.indent <= 0) return;
+                onIndent?.(-1);
+            } else {
+                onIndent?.(1);
+            }
+        }
+        if (event.key == 'ArrowUp' && event.altKey) {
+            onMoveUp?.();
+        }
+        if (event.key == 'ArrowDown' && event.altKey) {
+            onMoveDown?.();
+        }
+        if (event.key == 'Q' && event.ctrlKey && event.shiftKey) {
+            onDuplicate?.();
         }
     };
 

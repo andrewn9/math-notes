@@ -13,6 +13,7 @@ import { ArrayMap } from '@tater-archives/react-array-utils';
 import Block from './Block';
 import { AddIcon, DropdownIcon } from '../../icons';
 import DropdownButton from '../DropdownButton';
+// import { swap } from '../../data/util';
 
 const addOptions: [label: string, producer: () => BlockData][] = [
     ['Note', () => NoteBlockData('')],
@@ -151,7 +152,21 @@ function Document({
                                 index === focused?.[0] ? focused[1] : undefined
                             }
                             onFocus={() => setFocused([index, undefined])}
+                            onDuplicate={() => {
+                                insertAfter(block)
+                                setFocused([index + 1, focused?.[1]])
+                            }}
                             onReplace={replace}
+                            onMoveDown={() => {
+                                if (index + 1 >= value.length) return
+                                splice(index, 2, [value[index + 1], block])
+                                setFocused([index + 1, focused?.[1]])
+                            }}
+                            onMoveUp={() => {
+                                if (index <= 0) return
+                                splice(index - 1, 2, [block, value[index - 1]])
+                                setFocused([index - 1, focused?.[1]])
+                            }}
                         />
                     );
                 }}
