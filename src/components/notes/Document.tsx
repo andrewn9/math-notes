@@ -153,7 +153,7 @@ function Document({
                             }
                             onFocus={() => setFocused([index, undefined])}
                             onDuplicate={() => {
-                                insertAfter(block)
+                                insertAfter(addKey({...block}))
                                 setFocused([index + 1, focused?.[1]])
                             }}
                             onReplace={replace}
