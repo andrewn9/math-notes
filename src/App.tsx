@@ -183,15 +183,9 @@ function App() {
                         <p>
                             Report issues or suggestions on{' '}
                             <a
-                                href='https://github.com/JosiahFu/math-notes/issues'
+                                href='https://github.com/ThePotatoArchivist/math-notes/issues'
                                 className='underline'>
                                 Github
-                            </a>{' '}
-                            or{' '}
-                            <a
-                                href='mailto:josiahfu@gmail.com'
-                                className='underline'>
-                                email me
                             </a>
                             .
                         </p>
