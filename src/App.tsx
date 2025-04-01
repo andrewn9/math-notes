@@ -108,8 +108,8 @@ function App() {
             <Tooltip
                 className='fixed right-4 top-4'
                 localStorageKey='usageHintShown'>
-                Type <code>$$</code> to insert math, write <code>\table</code>{' '}
-                and <code>\embed</code> on an empty line to create a table and
+                Type <code>$$</code> to insert math, write <code>\table</code>, <code>\matrix</code>,{' '}
+                and <code>\embed</code> on an empty line to create a table, matrix, or
                 embed respectively
             </Tooltip>
 

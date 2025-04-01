@@ -5,6 +5,7 @@ import NoteBlock from './NoteBlock';
 import TableBlock from './TableBlock';
 import { KeyboardEventHandler } from 'react';
 import EmbedBlock from './EmbedBlock';
+import MatrixBlock from './MatrixBlock';
 
 function Block({
     value,
@@ -54,6 +55,14 @@ function Block({
             case 'EMBED':
                 return (
                     <EmbedBlock
+                        value={value}
+                        onChange={onChange}
+                        {...otherProps}
+                    />
+                );
+            case 'MATRIX':
+                return (
+                    <MatrixBlock
                         value={value}
                         onChange={onChange}
                         {...otherProps}

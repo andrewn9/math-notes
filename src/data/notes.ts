@@ -40,12 +40,15 @@ function NoteBlockData(
     };
 }
 
-interface TableBlockData {
-    type: 'TABLE';
+interface AbstractTableBlockData {
     cells: string[][];
     indent: number;
 }
-function TableBlockData(cells: string[][], indent = 0): TableBlockData {
+
+interface TableBlockData extends AbstractTableBlockData {
+    type: 'TABLE';
+}
+function TableBlockData(cells: string[][] = [['', ''], ['', '']], indent = 0): TableBlockData {
     return {
         type: 'TABLE',
         cells,
@@ -62,7 +65,18 @@ function EmbedBlockData(url: string, indent = 0): EmbedBlockData {
     return { type: 'EMBED', url, indent };
 }
 
-type BlockData = NoteBlockData | TableBlockData | EmbedBlockData;
+interface MatrixBlockData extends AbstractTableBlockData {
+    type: 'MATRIX';
+}
+function MatrixBlockData(cells: string[][] = [['', ''], ['', '']], indent = 0): MatrixBlockData {
+    return {
+        type: 'MATRIX',
+        cells,
+        indent,
+    };
+}
+
+type BlockData = NoteBlockData | TableBlockData | EmbedBlockData | MatrixBlockData;
 
 type Direction = 'left' | 'right' | 'top' | 'bottom';
 
@@ -72,5 +86,6 @@ export {
     NoteBlockData,
     TableBlockData,
     EmbedBlockData,
+    MatrixBlockData,
 };
-export type { Segment, BlockData, Direction };
+export type { Segment, BlockData, Direction, AbstractTableBlockData };

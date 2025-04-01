@@ -3,6 +3,7 @@ import {
     BlockData,
     Direction,
     EmbedBlockData,
+    MatrixBlockData,
     NoteBlockData,
     TableBlockData,
 } from '../../data/notes';
@@ -23,6 +24,7 @@ const addOptions: [label: string, producer: () => BlockData][] = [
                 ['', ''],
             ]),
     ],
+    ['Matrix', () => MatrixBlockData([['', ''], ['', '']])],
     ['Embed', () => EmbedBlockData('https://')],
     ['Desmos', () => EmbedBlockData('https://desmos.com/calculator')],
     ['Desmos Geometry', () => EmbedBlockData('https://desmos.com/geometry')],
