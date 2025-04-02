@@ -126,7 +126,7 @@ function documentToMarkdown(
                 }
             })
             .join('\n') +
-        (appendJson ? `\n- \`\`\`json\n    ${JSON.stringify(serializeDocument(title, blocks))}\n\`\`\`` : '')
+        (appendJson ? `\n- \`\`\`json\n  ${JSON.stringify(serializeDocument(title, blocks))}\n  \`\`\`` : '')
     );
 }
 
