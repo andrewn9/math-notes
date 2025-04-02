@@ -21,8 +21,7 @@ function NoteTable<T extends AbstractTableBlockData>({
     headerButtons = false,
     border = false,
     spaced = false,
-    rightAlign = false,
-}: ControlledComponentProps<WithKey<T>> & NavigationProps & { headerButtons?: boolean, border?: boolean, spaced?: boolean, rightAlign?: boolean }) {
+}: ControlledComponentProps<WithKey<T>> & NavigationProps & { headerButtons?: boolean, border?: boolean, spaced?: boolean }) {
     const [cells, setCells] = usePropState(value, onChange, 'cells');
 
     const [focusedRow, setFocusedRow] = useState<number>(0);
@@ -197,7 +196,6 @@ function NoteTable<T extends AbstractTableBlockData>({
                                                     );
                                                     setFocusedRow(rowIndex);
                                                 }}
-                                                className={rightAlign ? 'text-right' : undefined}
                                                 {...navigationHandlers}
                                             />
                                         </td>
