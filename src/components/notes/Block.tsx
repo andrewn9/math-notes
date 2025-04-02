@@ -68,17 +68,17 @@ function Block({
                         {...otherProps}
                     />
                 );
-            case 'EMBED':
+            case 'MATRIX':
                 return (
-                    <EmbedBlock
+                    <MatrixBlock
                         value={value}
                         onChange={onChange}
                         {...otherProps}
                     />
                 );
-            case 'MATRIX':
+            case 'EMBED':
                 return (
-                    <MatrixBlock
+                    <EmbedBlock
                         value={value}
                         onChange={onChange}
                         {...otherProps}

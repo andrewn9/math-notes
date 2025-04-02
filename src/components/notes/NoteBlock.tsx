@@ -69,11 +69,11 @@ function NoteBlock({
                     )
                 );
                 return;
-            } else if (newContent[0].content === '\\embed') {
-                onReplace(addKey(EmbedBlockData('https://', value.indent)));
-                return;
             } else if (newContent[0].content === '\\matrix') {
                 onReplace(addKey(MatrixBlockData([['', ''], ['', '']], value.indent)))
+                return;
+            } else if (newContent[0].content === '\\embed') {
+                onReplace(addKey(EmbedBlockData('https://', value.indent)));
                 return;
             }
         }

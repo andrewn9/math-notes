@@ -56,15 +56,6 @@ function TableBlockData(cells: string[][] = [['', ''], ['', '']], indent = 0): T
     };
 }
 
-interface EmbedBlockData {
-    type: 'EMBED';
-    url: string;
-    indent: number;
-}
-function EmbedBlockData(url: string, indent = 0): EmbedBlockData {
-    return { type: 'EMBED', url, indent };
-}
-
 interface MatrixBlockData extends AbstractTableBlockData {
     type: 'MATRIX';
 }
@@ -76,7 +67,16 @@ function MatrixBlockData(cells: string[][] = [['', ''], ['', '']], indent = 0): 
     };
 }
 
-type BlockData = NoteBlockData | TableBlockData | EmbedBlockData | MatrixBlockData;
+interface EmbedBlockData {
+    type: 'EMBED';
+    url: string;
+    indent: number;
+}
+function EmbedBlockData(url: string, indent = 0): EmbedBlockData {
+    return { type: 'EMBED', url, indent };
+}
+
+type BlockData = NoteBlockData | TableBlockData | MatrixBlockData | EmbedBlockData;
 
 type Direction = 'left' | 'right' | 'top' | 'bottom';
 
@@ -85,7 +85,7 @@ export {
     MathSegmentData,
     NoteBlockData,
     TableBlockData,
-    EmbedBlockData,
     MatrixBlockData,
+    EmbedBlockData,
 };
 export type { Segment, BlockData, Direction, AbstractTableBlockData };

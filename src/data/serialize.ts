@@ -115,14 +115,14 @@ function documentToMarkdown(
                                 )
                                 .join('\n')
                         );
-                    case 'EMBED':
-                        return `${indentSpaces}- <iframe src=${block.url} width=900 height=500 style="border: none;" />`;
                     case 'MATRIX':
                         return (
                             `${indentSpaces}- $$\\begin{bmatrix}\n` +
                             block.cells.map(row => `${indentSpaces}  ${row.join(' & ')}`).join('\\\\\n') + '\n' +
                             `${indentSpaces}  \\end{bmatrix}$$`
                         )
+                    case 'EMBED':
+                        return `${indentSpaces}- <iframe src=${block.url} width=900 height=500 style="border: none;" />`;
                 }
             })
             .join('\n') +
