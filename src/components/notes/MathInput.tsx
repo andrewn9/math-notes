@@ -29,7 +29,8 @@ function MathInput({
     onUpOut,
     onInsertAfter,
     onDeleteOut,
-}: ControlledComponentProps<string> & NavigationProps) {
+    className,
+}: ControlledComponentProps<string> & NavigationProps & { className?: string }) {
     const mathFieldRef = useRef<MathField>();
 
     const supressEditEvent = useRef(import.meta.env.DEV ? 2 : 0); // EditableMathField has an effect which triggers the edit event at init
@@ -88,6 +89,7 @@ function MathInput({
             latex={value}
             config={mathquillConfigOptions}
             onFocus={onFocus}
+            className={className}
         />
     );
 }
