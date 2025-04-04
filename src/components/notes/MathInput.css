@@ -13,7 +13,7 @@
     @apply border-l-gray-800 dark:border-l-gray-300;
 }
 
-.mq-editable-field .mq-overline, .mq-editable-field .mq-underline {
+.mq-editable-field .mq-overline, .mq-editable-field .mq-underline, .mq-math-mode .mq-overarrow {
     @apply dark:border-gray-300;
 }
 
