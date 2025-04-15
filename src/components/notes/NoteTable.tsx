@@ -175,6 +175,7 @@ function NoteTable<T extends AbstractTableBlockData>({
                                         onInsertAfter() {
                                             insertAfter(row.map(() => ''));
                                             focusDown();
+                                            setFocusedColumn(0);
                                         },
                                     };
 
