@@ -6,6 +6,7 @@ import TableBlock from './TableBlock';
 import { KeyboardEventHandler } from 'react';
 import EmbedBlock from './EmbedBlock';
 import MatrixBlock from './MatrixBlock';
+import MatMulBlock from './MatMulBlock';
 
 function Block({
     value,
@@ -76,6 +77,14 @@ function Block({
                         {...otherProps}
                     />
                 );
+            case 'MATMUL':
+                return (
+                    <MatMulBlock
+                        value={value}
+                        onChange={onChange}
+                        {...otherProps}
+                    />
+                )
             case 'EMBED':
                 return (
                     <EmbedBlock

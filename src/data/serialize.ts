@@ -70,6 +70,14 @@ function latexFix(latex: string) {
         .replace(/\\cap_/g, '\\bigcap_');
 }
 
+function matrix(cells: string[][], prefix: string, firstLinePrefix = ' ') {
+    return (
+        `${prefix}${firstLinePrefix} \\begin{bmatrix}\n` +
+        cells.map(row => `${prefix}  ${row.join(' & ')}`).join('\\\\\n') + '\n' +
+        `${prefix}  \\end{bmatrix}`
+    )
+}
+
 function documentToMarkdown(
     title: string,
     blocks: KeyedArray<BlockData>,
@@ -116,10 +124,17 @@ function documentToMarkdown(
                                 .join('\n')
                         );
                     case 'MATRIX':
+                        return '$$' + matrix(block.cells, indentSpaces, '-') + '$$'
+                    case 'MATMUL':
                         return (
-                            `${indentSpaces}- $$\\begin{bmatrix}\n` +
-                            block.cells.map(row => `${indentSpaces}  ${row.join(' & ')}`).join('\\\\\n') + '\n' +
-                            `${indentSpaces}  \\end{bmatrix}$$`
+                            `${indentSpaces}- $$\\begin{array}{}\n` + 
+                            `${indentSpaces}  &\n` +
+                            matrix(block.second, indentSpaces) + '\n' +
+                            `${indentSpaces}  \\\\ \\\\\n` +
+                            matrix(block.first, indentSpaces) + '\n' +
+                            `${indentSpaces}  &\n` +
+                            matrix(block.result, indentSpaces) + '\n' +
+                            `${indentSpaces}  \\end{array}$$`
                         )
                     case 'EMBED':
                         return `${indentSpaces}- <iframe src=${block.url} width=900 height=500 style="border: none;" />`;

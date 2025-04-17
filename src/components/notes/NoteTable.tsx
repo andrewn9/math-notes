@@ -1,14 +1,12 @@
 import { KeyboardEventHandler, useEffect, useState } from 'react';
-import { AbstractTableBlockData, Direction } from '../../data/notes';
-import { WithKey } from '../../data/keys';
+import { Direction } from '../../data/notes';
 import { ControlledComponentProps, NavigationProps } from '../../data/props';
-import { usePropState } from '@tater-archives/react-use-destructure';
 import { ArrayMap } from '@tater-archives/react-array-utils';
 import MathInput from './MathInput';
 import { AddIcon, RemoveIcon } from '../../icons';
 
 // This code is going to be absolutely horrible to debug later
-function NoteTable<T extends AbstractTableBlockData>({
+function NoteTable({
     value,
     onChange,
     focused,
@@ -16,14 +14,14 @@ function NoteTable<T extends AbstractTableBlockData>({
     onFocus,
     onDownOut,
     onUpOut,
+    onLeftOut,
+    onRightOut,
     onDeleteOut,
     onInsertAfter,
     headerButtons = false,
     border = false,
     spaced = false,
-}: ControlledComponentProps<WithKey<T>> & NavigationProps & { headerButtons?: boolean, border?: boolean, spaced?: boolean }) {
-    const [cells, setCells] = usePropState(value, onChange, 'cells');
-
+}: ControlledComponentProps<string[][]> & NavigationProps & { headerButtons?: boolean, border?: boolean, spaced?: boolean }) {
     const [focusedRow, setFocusedRow] = useState<number>(0);
     const [focusedColumn, setFocusedColumn] = useState<number>(0);
     const [focusedDirection, setFocusedDirection] = useState<
@@ -33,35 +31,53 @@ function NoteTable<T extends AbstractTableBlockData>({
     // Handle focusing
     useEffect(() => {
         if (focused) {
-            if (focusSide === 'bottom') setFocusedRow(cells.length - 1);
+            if (focusSide === 'bottom') setFocusedRow(value.length - 1);
             if (focusSide === 'top') setFocusedRow(0);
         }
-    }, [focusSide, focused, cells.length]);
+    }, [focusSide, focused, value.length]);
 
     const handleKeyDown: KeyboardEventHandler = event => {
-        if (onInsertAfter && event.key === 'Enter' && event.ctrlKey) {
+        if (!event.ctrlKey) return
+
+        if (onInsertAfter && event.key === 'Enter') {
             onInsertAfter()
+            event.preventDefault()
+        }
+        if (onRightOut && event.key === 'ArrowRight') {
+            onRightOut()
+            event.preventDefault()
+        }
+        if (onLeftOut && event.key === 'ArrowLeft') {
+            onLeftOut()
+            event.preventDefault()
+        }
+        if (onUpOut && event.key === 'ArrowUp') {
+            onUpOut()
+            event.preventDefault()
+        }
+        if (onDownOut && event.key === 'ArrowDown') {
+            onDownOut()
             event.preventDefault()
         }
     }
 
     const addColumn = () => {
-        setCells(cells.map(row => [...row, '']));
+        onChange(value.map(row => [...row, '']));
     };
 
     const removeColumn = () => {
-        setCells(cells.map(row => row.slice(0, -1)));
+        onChange(value.map(row => row.slice(0, -1)));
     };
 
     return (
         <table className={spaced ? 'border-spacing-x-2 border-spacing-y-1 border-separate' : ''} onKeyDownCapture={handleKeyDown}>
             {headerButtons && <thead>
                 <tr>
-                    {cells[0].slice(0, -1).map((_, i) => (
+                    {value[0].slice(0, -1).map((_, i) => (
                         <th key={i}></th>
                     ))}
                     <th>
-                        {cells[0].length > 1 && (
+                        {value[0].length > 1 && (
                             <button
                                 className='button float-right rounded-md p-1'
                                 onClick={removeColumn}>
@@ -79,7 +95,7 @@ function NoteTable<T extends AbstractTableBlockData>({
                 </tr>
             </thead>}
             <tbody>
-                <ArrayMap array={cells} setArray={setCells}>
+                <ArrayMap array={value} setArray={onChange}>
                     {(row, { set: setRow, insertAfter, remove }, rowIndex) => (
                         <tr>
                             <ArrayMap array={row} setArray={setRow}>
@@ -117,7 +133,7 @@ function NoteTable<T extends AbstractTableBlockData>({
                                         onDownOut() {
                                             if (
                                                 onDownOut &&
-                                                rowIndex >= cells.length - 1
+                                                rowIndex >= value.length - 1
                                             ) {
                                                 onDownOut();
                                                 return;
@@ -125,7 +141,10 @@ function NoteTable<T extends AbstractTableBlockData>({
                                             focusDown();
                                         },
                                         onLeftOut() {
-                                            if (focusedColumn <= 0) return;
+                                            if (focusedColumn <= 0) {
+                                                onLeftOut?.();
+                                                return;
+                                            }
                                             focusLeft();
                                         },
                                         onRightOut() {
@@ -139,7 +158,7 @@ function NoteTable<T extends AbstractTableBlockData>({
                                                 if (row.every(e => e === '')) {
                                                     if (
                                                         onDeleteOut &&
-                                                        cells.length === 1
+                                                        value.length === 1
                                                     ) {
                                                         onDeleteOut();
                                                         return;
@@ -156,12 +175,12 @@ function NoteTable<T extends AbstractTableBlockData>({
                                                     return;
                                                 }
                                             } else if (
-                                                cells.every(
+                                                value.every(
                                                     e => e[columnIndex] === ''
                                                 )
                                             ) {
-                                                setCells(
-                                                    cells.map(e =>
+                                                onChange(
+                                                    value.map(e =>
                                                         e.filter(
                                                             (_, i) =>
                                                                 i !==

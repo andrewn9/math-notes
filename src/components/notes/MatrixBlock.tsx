@@ -1,16 +1,17 @@
+import { usePropState } from '@tater-archives/react-use-destructure';
 import { WithKey } from '../../data/keys';
 import { MatrixBlockData } from '../../data/notes';
 import { ControlledComponentProps, NavigationProps } from '../../data/props';
-import NoteTable from './NoteTable';
+import NoteMatrix from './NoteMatrix';
 
 function MatrixBlock({
+    value,
+    onChange,
     ...props
 }: ControlledComponentProps<WithKey<MatrixBlockData>> & NavigationProps) {
-    return <div className='flex flex-row'>
-        <div className='w-2 border-t border-b border-l border-gray-800 dark:border-gray-300' />
-        <NoteTable {...props} spaced />
-        <div className='w-2 border-t border-b border-r border-gray-800 dark:border-gray-300' />
-    </div>
+    const [cells, setCells] = usePropState(value, onChange, 'cells');
+    
+    return <NoteMatrix value={cells} onChange={setCells} {...props} />
 }
 
 export default MatrixBlock;

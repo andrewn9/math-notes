@@ -3,7 +3,9 @@ import {
     BlockData,
     Direction,
     EmbedBlockData,
+    empty2x2,
     MathSegmentData,
+    MatMulBlockData,
     MatrixBlockData,
     NoteBlockData,
     Segment,
@@ -60,19 +62,22 @@ function NoteBlock({
                 onReplace(
                     addKey(
                         TableBlockData(
-                            [
-                                ['', ''],
-                                ['', ''],
-                            ],
+                            empty2x2(),
                             value.indent
                         )
                     )
                 );
                 return;
-            } else if (newContent[0].content === '\\matrix') {
-                onReplace(addKey(MatrixBlockData([['', ''], ['', '']], value.indent)))
+            }
+            if (newContent[0].content === '\\matrix') {
+                onReplace(addKey(MatrixBlockData(empty2x2(), value.indent)))
                 return;
-            } else if (newContent[0].content === '\\embed') {
+            }
+            if (newContent[0].content === '\\matmul') {
+                onReplace(addKey(MatMulBlockData(empty2x2(), empty2x2(), empty2x2(), value.indent)))
+                return
+            }
+            if (newContent[0].content === '\\embed') {
                 onReplace(addKey(EmbedBlockData('https://', value.indent)));
                 return;
             }

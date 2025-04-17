@@ -45,10 +45,21 @@ interface AbstractTableBlockData {
     indent: number;
 }
 
+function empty2x2() {
+    return [
+        ['', ''],
+        ['', '']
+    ]
+}
+
+function isBlank(table: string[][]) {
+    return table.every(row => row.every(cell => cell === ''))
+}
+
 interface TableBlockData extends AbstractTableBlockData {
     type: 'TABLE';
 }
-function TableBlockData(cells: string[][] = [['', ''], ['', '']], indent = 0): TableBlockData {
+function TableBlockData(cells = empty2x2(), indent = 0): TableBlockData {
     return {
         type: 'TABLE',
         cells,
@@ -59,12 +70,29 @@ function TableBlockData(cells: string[][] = [['', ''], ['', '']], indent = 0): T
 interface MatrixBlockData extends AbstractTableBlockData {
     type: 'MATRIX';
 }
-function MatrixBlockData(cells: string[][] = [['', ''], ['', '']], indent = 0): MatrixBlockData {
+function MatrixBlockData(cells = empty2x2(), indent = 0): MatrixBlockData {
     return {
         type: 'MATRIX',
         cells,
         indent,
     };
+}
+
+interface MatMulBlockData {
+    type: 'MATMUL';
+    first: string[][];
+    second: string[][];
+    result: string[][];
+    indent: number;
+}
+function MatMulBlockData(first = empty2x2(), second = empty2x2(), result = empty2x2(), indent = 0): MatMulBlockData {
+    return {
+        type: 'MATMUL',
+        first,
+        second,
+        result,
+        indent,
+    }
 }
 
 interface EmbedBlockData {
@@ -76,7 +104,7 @@ function EmbedBlockData(url: string, indent = 0): EmbedBlockData {
     return { type: 'EMBED', url, indent };
 }
 
-type BlockData = NoteBlockData | TableBlockData | MatrixBlockData | EmbedBlockData;
+type BlockData = NoteBlockData | TableBlockData | MatrixBlockData | MatMulBlockData | EmbedBlockData;
 
 type Direction = 'left' | 'right' | 'top' | 'bottom';
 
@@ -86,6 +114,9 @@ export {
     NoteBlockData,
     TableBlockData,
     MatrixBlockData,
+    MatMulBlockData,
     EmbedBlockData,
+    empty2x2,
+    isBlank,
 };
 export type { Segment, BlockData, Direction, AbstractTableBlockData };
