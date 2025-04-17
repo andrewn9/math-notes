@@ -90,22 +90,27 @@ function documentToMarkdown(
                 const indentSpaces = rep('  ', block.indent);
 
                 switch (block.type) {
-                    case 'NOTE':
+                    case 'NOTE': {
+                        const mathBlock = block.content.every(
+                            segment =>
+                                segment.type === 'MATH' ||
+                                segment.content === ''
+                        )
+
                         return `${indentSpaces}- ${
                             block.isAnswer ? '> ' : ''
                         }${block.content
                             .map(e =>
                                 e.type === 'MATH'
-                                    ? block.content.every(
-                                          segment =>
-                                              segment.type === 'MATH' ||
-                                              segment.content === ''
-                                      )
-                                        ? `$$${latexFix(e.content)}$$`
-                                        : `$${latexFix(e.content)}$`
+                                    ? e.content === '' 
+                                        ? ' ' 
+                                        : mathBlock
+                                            ? `$$${latexFix(e.content)}$$`
+                                            : `$${latexFix(e.content)}$`
                                     : e.content
                             )
                             .join('')}`;
+                    }
                     case 'TABLE':
                         return (
                             `${indentSpaces}- ` +
