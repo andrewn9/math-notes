@@ -70,11 +70,11 @@ function latexFix(latex: string) {
         .replace(/\\cap_/g, '\\bigcap_');
 }
 
-function matrix(cells: string[][], prefix: string, firstLinePrefix = ' ') {
+function matrix(cells: string[][], prefix: string, firstLinePrefix = prefix) {
     return (
-        `${prefix}${firstLinePrefix} \\begin{bmatrix}\n` +
-        cells.map(row => `${prefix}  ${row.join(' & ')}`).join('\\\\\n') + '\n' +
-        `${prefix}  \\end{bmatrix}`
+        `${firstLinePrefix}\\begin{bmatrix}\n` +
+        cells.map(row => `${prefix}${row.join(' & ')}`).join('\\\\\n') + '\n' +
+        `${prefix}\\end{bmatrix}`
     )
 }
 
@@ -129,16 +129,16 @@ function documentToMarkdown(
                                 .join('\n')
                         );
                     case 'MATRIX':
-                        return '$$' + matrix(block.cells, indentSpaces, '-') + '$$'
+                        return '- $$' + matrix(block.cells, indentSpaces + '  ', '') + '$$'
                     case 'MATMUL':
                         return (
                             `${indentSpaces}- $$\\begin{array}{}\n` + 
                             `${indentSpaces}  &\n` +
-                            matrix(block.second, indentSpaces) + '\n' +
+                            matrix(block.second, indentSpaces + '  ') + '\n' +
                             `${indentSpaces}  \\\\ \\\\\n` +
-                            matrix(block.first, indentSpaces) + '\n' +
+                            matrix(block.first, indentSpaces + '  ') + '\n' +
                             `${indentSpaces}  &\n` +
-                            matrix(block.result, indentSpaces) + '\n' +
+                            matrix(block.result, indentSpaces + '  ') + '\n' +
                             `${indentSpaces}  \\end{array}$$`
                         )
                     case 'EMBED':
