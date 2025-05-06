@@ -67,7 +67,8 @@ function latexFix(latex: string) {
         .replace(/\\mid_/g, '\\bigg\\rvert_')
         .replace(/(=|<|>|\\ne|\\ge|\\le)\^\?/g, '\\stackrel{?}{$1}')
         .replace(/\\cup_/g, '\\bigcup_')
-        .replace(/\\cap_/g, '\\bigcap_');
+        .replace(/\\cap_/g, '\\bigcap_')
+        .replace(/#/g, '\\#');
 }
 
 function matrix(cells: string[][], prefix: string, firstLinePrefix = prefix) {
