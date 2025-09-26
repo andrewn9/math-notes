@@ -10,13 +10,16 @@ const nonHashFiles = [
     'eot',
 ]
 
+// Detect if we're building for GitHub Pages
+const isGitHubPages = process.env.GITHUB_PAGES === 'true';
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
     svgr(),
   ],
-  base: '/math-notes',
+  base: isGitHubPages ? '/math-notes/' : '/',
   build: {
     rollupOptions: {
       output: {
