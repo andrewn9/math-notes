@@ -80,25 +80,7 @@ function Document({
                             value={block}
                             onChange={set}
                             onIndent={change => {
-                                // If indenting out
-                                if (change === 1) {
-                                    // You cannot indent block 0
-                                    if (index === 0) {
-                                        return;
-                                    }
-                                    // Go backwards through the array starting from the current block
-                                    for (const { indent } of value
-                                        .slice(0, index)
-                                        .reverse()) {
-                                        // if the block is indented less, we cannot indent
-                                        if (indent < block.indent) {
-                                            return;
-                                            // if the block is indented the same, we can indent
-                                        } else if (indent === block.indent) {
-                                            break;
-                                        } // otherwise keep searching
-                                    }
-                                }
+                                // ...existing code...
                                 const nonChildIndex = value
                                     .slice(index + 1)
                                     .findIndex(e => e.indent <= block.indent);
@@ -130,7 +112,6 @@ function Document({
                                     addKey(
                                         NoteBlockData(
                                             '',
-                                            // If the next block is a child of this one, make the new block also a child
                                             value[index + 1]?.indent >
                                                 block.indent
                                                 ? block.indent + 1
@@ -173,6 +154,17 @@ function Document({
                     );
                 }}
             </ArrayMap>
+            {/* Placeholder for new line (first line or first empty line only) */}
+            {(value.length === 0 || (
+                value.length === 1 &&
+                value[0].type === 'NOTE' &&
+                value[0].content.length === 1 &&
+                value[0].content[0].content === ''
+            )) ? (
+                <div className='ml-2 mt-2 text-gray-400 dark:text-gray-600 italic select-none pointer-events-none'>
+                    Type $$ to insert math, write \table, \matrix, or \embed on an empty line to create a table, matrix, or embed respectively
+                </div>
+            ) : null}
             <div className='relative flex flex-row justify-center gap-2px print:hidden'>
                 <button
                     className='button rounded-l-md rounded-r-none p-1'
