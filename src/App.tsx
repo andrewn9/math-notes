@@ -91,7 +91,7 @@ function App() {
 
     // Set tab title
     useEffect(() => {
-        document.title = title ? `Math Notes - ${title}` : 'Math Notes';
+        document.title = title ? `${title}` : 'we love math quill';
     }, [title]);
 
     // Add handler to prevent unloading page when unsaved
