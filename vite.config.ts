@@ -10,8 +10,10 @@ const nonHashFiles = [
     'eot',
 ]
 
-// Detect if we're building for GitHub Pages
+
+// Detect deployment environment
 const isGitHubPages = process.env.GITHUB_PAGES === 'true';
+const isVercel = process.env.VERCEL === '1' || process.env.VERCEL === 'true';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -20,6 +22,8 @@ export default defineConfig({
     svgr(),
   ],
   base: isGitHubPages ? '/math-notes/' : '/',
+  // If on Vercel, always use root
+  ...(isVercel && { base: '/' }),
   build: {
     rollupOptions: {
       output: {
