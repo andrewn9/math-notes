@@ -75,10 +75,22 @@ function Document({
                     index,
                     { splice }
                 ) => {
+                    // Provide a placeholder for each note block
+                    const isFirstBlockAndSegment =
+                        index === 0 &&
+                        block.type === 'NOTE' &&
+                        Array.isArray(block.content) &&
+                        block.content.length === 1 &&
+                        block.content[0].content === '';
+                    const placeholder =
+                        block.type === 'NOTE' && isFirstBlockAndSegment
+                            ? 'Type $$ to insert math, write \\table, \\matrix, or \\embed on an empty line to create a table, matrix, or embed respectively'
+                            : undefined;
                     return (
                         <Block
                             value={block}
                             onChange={set}
+                            placeholder={placeholder}
                             onIndent={change => {
                                 // ...existing code...
                                 const nonChildIndex = value
@@ -154,17 +166,6 @@ function Document({
                     );
                 }}
             </ArrayMap>
-            {/* Placeholder for new line (first line or first empty line only) */}
-            {(value.length === 0 || (
-                value.length === 1 &&
-                value[0].type === 'NOTE' &&
-                value[0].content.length === 1 &&
-                value[0].content[0].content === ''
-            )) ? (
-                <div className='ml-2 mt-2 text-gray-400 dark:text-gray-600 italic select-none pointer-events-none'>
-                    Type $$ to insert math, write \table, \matrix, or \embed on an empty line to create a table, matrix, or embed respectively
-                </div>
-            ) : null}
             <div className='relative flex flex-row justify-center gap-2px print:hidden'>
                 <button
                     className='button rounded-l-md rounded-r-none p-1'

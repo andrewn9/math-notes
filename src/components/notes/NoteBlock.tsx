@@ -30,9 +30,11 @@ function NoteBlock({
     onInsertAfter,
     onDeleteOut,
     onReplace,
+    placeholder,
 }: ControlledComponentProps<WithKey<NoteBlockData>> &
     NavigationProps & {
         onReplace?: (...blocks: KeyedArray<BlockData>) => void;
+        placeholder?: string;
     }) {
     const [content, setContent] = usePropState(value, onChange, 'content');
     const [isAnswer, setIsAnswer] = usePropState(value, onChange, 'isAnswer');
@@ -113,6 +115,9 @@ function NoteBlock({
                         },
                     };
 
+                    // Show placeholder for the first segment if provided
+                    const segPlaceholder = index === 0 ? placeholder : undefined;
+
                     return segment.type === 'MATH' ? (
                         <MathSegment
                             value={segment}
@@ -154,6 +159,7 @@ function NoteBlock({
                                     setFocusedSegment([index - 1, 'right']);
                                 }
                             }}
+                            placeholder={segPlaceholder}
                             {...props}
                         />
                     );

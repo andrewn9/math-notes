@@ -14,13 +14,15 @@ const AutosizeInput = forwardRef(
             onChange,
             minWidth,
             disableSizing,
+            placeholder,
             ...otherProps
         }: {
             value: string;
             onChange: (value: string) => void;
             disableSizing?: boolean;
             minWidth?: number;
-        } & Omit<HTMLAttributes<HTMLInputElement>, 'value' | 'onChange'>,
+            placeholder?: string;
+        } & Omit<HTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'placeholder'>,
         forwardedRef: React.ForwardedRef<HTMLInputElement>
     ) => {
         const inputRef = useRef<HTMLInputElement>();
@@ -61,6 +63,7 @@ const AutosizeInput = forwardRef(
                 ref={handleRef}
                 value={value}
                 onChange={handleChange}
+                placeholder={placeholder}
                 {...otherProps}
             />
         );

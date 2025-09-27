@@ -20,10 +20,12 @@ function TextSegment({
     onDeleteOut,
     onInsertMath,
     last = false,
+    placeholder,
 }: ControlledComponentProps<WithKey<TextSegmentData>> &
     NavigationProps & {
         onInsertMath?: (before: string, after: string) => void;
         last?: boolean;
+        placeholder?: string;
     }) {
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -108,6 +110,7 @@ function TextSegment({
             minWidth={1}
             disableSizing={last}
             className={`outline-none ${last ? 'flex-grow' : ''}`}
+            placeholder={placeholder}
         />
     );
 }

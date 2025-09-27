@@ -16,6 +16,7 @@ function Block({
     onIndent,
     onMoveUp,
     onMoveDown,
+    placeholder,
     ...otherProps
 }: ControlledComponentProps<WithKey<BlockData>> &
     NavigationProps & {
@@ -24,6 +25,7 @@ function Block({
         onIndent?: (change: -1 | 1) => void;
         onMoveUp?: () => void;
         onMoveDown?: () => void;
+        placeholder?: string;
     }) {
     const handleKeyDown: KeyboardEventHandler = event => {
         if (event.key === 'Tab') {
@@ -55,6 +57,7 @@ function Block({
                         value={value}
                         onChange={onChange}
                         onReplace={onReplace}
+                        placeholder={placeholder}
                         {...otherProps}
                     />
                 );
